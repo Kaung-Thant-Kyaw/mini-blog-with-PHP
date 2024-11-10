@@ -19,11 +19,18 @@ $errors = $_GET['errors'] ?? [];
           </ul>
         </div>
       <?php endif ?>
-      <?php if (isset($_GET['success']) && (int)$_GET['success'] === 1) : ?>
+      <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success">
-          Created post successfully!
+          <?php if ($_GET['success'] == 1): ?>
+            Created post successfully!
+          <?php elseif ($_GET['success'] == 2): ?>
+            Updated post successfully!
+          <?php elseif ($_GET['success'] == 3): ?>
+            Deleted post successfully!
+          <?php endif; ?>
         </div>
-      <?php endif ?>
+      <?php endif; ?>
+
       <form action="./helper/createPost.php" method="post" enctype="multipart/form-data">
         <div class="">
           <div class="">
@@ -75,7 +82,7 @@ $errors = $_GET['errors'] ?? [];
                 <h4 class="card-title"><?= htmlspecialchars($post['title']) ?></h4>
                 <p class="card-text"><?= htmlspecialchars(mb_strimwidth($post['content'], 0, 60, '...')) ?></p>
                 <a href="./editPost.php?id=<?= $post['blog_id'] ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="delete_post.php?id=<?= $post['blog_id'] ?>" onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                <a href="./helper/deletePost.php?id=<?= $post['blog_id'] ?>" onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                 <p><small>Category: <?= htmlspecialchars($post['name']) ?></small></p>
               </div>
             </div>
