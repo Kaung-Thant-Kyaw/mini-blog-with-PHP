@@ -1,11 +1,10 @@
 <?php
 require_once("./layouts/header.php");
+require_once("../functions.php");
 require_once("../db/Database.php");
 require_once("./helper/categoryList.php");
-require_once("./helper/BlogList.php");
-
+require_once("./helper/postList.php");
 $errors = $_GET['errors'] ?? [];
-
 ?>
 
 <div class="container">
@@ -28,23 +27,32 @@ $errors = $_GET['errors'] ?? [];
       <form action="./helper/createPost.php" method="post" enctype="multipart/form-data">
         <div class="">
           <div class="">
-            <img src="" id="output" class="w-100">
+            <!-- Image preview (if exists) -->
+            <?php if (isset($_GET['image'])) : ?>
+              <img src="../../images/<?= htmlspecialchars($_GET['image']) ?>" id="output" class="w-100">
+            <?php endif; ?>
           </div>
           <div class="mt-2">
-            <input type="file" name="image" id="image" class="form-control" onchange="loadFile(event)">
+            <!-- Input for image file (no need for value attribute for file input) -->
+            <input type="file" name="image" id="image" class="form-control" value="<?= $_GET['image'] ?? '' ?>" onchange="loadFile(event)">
           </div>
         </div>
         <div class="mt-2">
-          <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title">
+          <!-- Title input (remains old value if validation fails) -->
+          <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="<?= htmlspecialchars($_GET['title'] ?? '') ?>">
         </div>
         <div class="mt-2">
-          <textarea cols="30" rows="10" name="content" id="content" class="form-control" placeholder="Enter Your Content"></textarea>
+          <!-- Content textarea (remains old value if validation fails) -->
+          <textarea cols="30" rows="10" name="content" id="content" class="form-control" placeholder="Enter Your Content"><?= htmlspecialchars($_GET['content'] ?? '') ?></textarea>
         </div>
         <div class="mt-2">
+          <!-- Category dropdown (remains old value if validation fails) -->
           <select name="category" id="category" class="form-control">
             <option value="">Choose Category</option>
             <?php foreach ($categoryList as $category) : ?>
-              <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+              <option value="<?= $category['id'] ?>" <?= isset($_GET['category']) && $_GET['category'] == $category['id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($category['name']) ?>
+              </option>
             <?php endforeach ?>
           </select>
         </div>
@@ -52,8 +60,28 @@ $errors = $_GET['errors'] ?? [];
           <input type="submit" value="Create" class="btn btn-primary">
         </div>
       </form>
+
+
     </div>
-    <div class="col"></div>
+    <div class="col p-5">
+      <div class="row">
+        <?php foreach ($posts as $post) : ?>
+          <div class="col-4 me-2">
+            <div class="card mb-4" style="min-width: 14rem;">
+              <?php if ($post['image']) : ?>
+                <img src="../../images/<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-100 mb-3">
+              <?php endif ?>
+              <div class="card-body">
+                <h4 class="card-title"><?= htmlspecialchars($post['title']) ?></h4>
+                <p class="card-text"><?= htmlspecialchars(mb_strimwidth($post['content'], 0, 60, '...')) ?></p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                <p><small>Category: <?= htmlspecialchars($post['name']) ?></small></p>
+              </div>
+            </div>
+          </div>
+        <?php endforeach ?>
+      </div>
+    </div>
   </div>
 </div>
 
