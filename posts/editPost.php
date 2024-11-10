@@ -19,7 +19,7 @@ if (!$post) {
 ?>
 
 <div class="container">
-  <form action="update_post.php" method="post" enctype="multipart/form-data">
+  <form action="./helper/updatePost.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $post['id'] ?>">
 
     <!-- Image upload with existing image preview -->
@@ -32,7 +32,7 @@ if (!$post) {
     <input type="text" name="title" value="<?= htmlspecialchars($post['title']) ?? htmlspecialchars($_POST['title']) ?>" class="form-control" placeholder="Enter Title">
 
     <!-- Content textarea with existing value -->
-    <textarea name="content" class="form-control" placeholder="Enter Your Content"><?= htmlspecialchars($post['content']) ?? htmlspecialchars($_POST['content']) ?></textarea>
+    <textarea cols="30" rows="10" name="content" class="form-control" placeholder="Enter Your Content"><?= htmlspecialchars($post['content']) ?? htmlspecialchars($_POST['content']) ?></textarea>
 
     <!-- Category dropdown with selected category -->
     <select name="category" class="form-control">
