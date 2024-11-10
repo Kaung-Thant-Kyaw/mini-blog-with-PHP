@@ -83,6 +83,7 @@ $errors = $_GET['errors'] ?? [];
                 <p class="card-text"><?= htmlspecialchars(mb_strimwidth($post['content'], 0, 60, '...')) ?></p>
                 <a href="./editPost.php?id=<?= $post['blog_id'] ?>" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a href="./helper/deletePost.php?id=<?= $post['blog_id'] ?>" onclick="return confirm('Are you sure you want to delete this post?');" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                <a href="./detail.php?id=<?= $post['blog_id'] ?>" class="btn btn-success btn-sm"> <i class="fa-solid fa-circle-info"></i> See More</a>
                 <p><small>Category: <?= htmlspecialchars($post['name']) ?></small></p>
               </div>
             </div>
