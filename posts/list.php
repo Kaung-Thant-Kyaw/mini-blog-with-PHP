@@ -72,6 +72,14 @@ $errors = $_GET['errors'] ?? [];
     </div>
     <div class="col p-5">
       <div class="row">
+        <div class="d-flex flex-wrap mb-4">
+          <a href="list.php" class="btn btn-outline-primary me-2 mb-2">All</a>
+          <?php foreach ($categoryList as $category) : ?>
+            <a href="list.php?categoryId=<?= $category['id'] ?>" class="btn btn-outline-primary me-1 mb-2"><?= $category['name'] ?></a>
+          <?php endforeach ?>
+        </div>
+      </div>
+      <div class="row">
         <?php foreach ($posts as $post) : ?>
           <div class="col-4 me-2">
             <div class="card mb-4" style="min-width: 14rem;">
